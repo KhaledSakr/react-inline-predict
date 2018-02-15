@@ -8,6 +8,12 @@ A simple and customizable React component to show inline predictive text based o
 - Use ```Tab``` to autocomplete
 - Use ```Up``` and ```Down``` arrows to navigate suggestions
 
+## Installation
+
+To install, you can use [npm](https://npmjs.org/):
+
+    $ npm install --save react-inline-predict
+
 ## Usage
 
 The component is inserted in place of your normal [Input] field, passing all the props that you would normally pass.

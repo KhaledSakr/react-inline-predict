@@ -1,0 +1,10 @@
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+node_modules/
+.vscode/

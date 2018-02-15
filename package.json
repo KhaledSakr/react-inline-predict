@@ -1,0 +1,47 @@
+{
+  "name": "react-inline-predict",
+  "version": "1.0.0",
+  "description": "A simple and customizable React component to show inline predictive text based on user input and a dictionary.",
+  "author": "Khaled Sakr",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KhaledSakr/react-inline-predict.git"
+  },
+  "homepage": "https://github.com/KhaledSakr/react-inline-predict",
+  "bugs": "https://github.com/KhaledSakr/react-inline-predict/issues",
+  "keywords": [
+    "react",
+    "autocomplete",
+    "suggestions",
+    "inline",
+    "input-predict",
+    "predict",
+    "input",
+    "react-inline-predict",
+    "input-predictions"
+  ],
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "prepublish": "npm run build"
+  },
+  "babel": {
+    "plugins": [
+      "transform-object-rest-spread"
+    ],
+    "presets": [
+      "env",
+      "react"
+    ]
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1"
+  },
+  "peerDependencies": {
+    "react": "^16.2.0"
+  }
+}

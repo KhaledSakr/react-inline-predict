@@ -1,6 +1,6 @@
 {
   "name": "react-inline-predict",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple and customizable React component to show inline predictive text based on user input and a dictionary.",
   "author": "Khaled Sakr",
   "license": "MIT",

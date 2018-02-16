@@ -32,13 +32,14 @@ export default class InputPredict extends React.Component {
   }
 
   handleKeyDown(e) {
-    if (e.keyCode === 9) {
+    let event = Object.create(e);
+    
+    if (e.keyCode === 9 || e.keyCode === 13) {
       e.preventDefault();
       var val = this.state.suggestions[this.state.index];
       this.setState({ value: val });
 
       // A little hack to the send the onChange event back to the user
-      var event = Object.create(e);
       event.target.value = val;
       this.props.onChange(event);
     }

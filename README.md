@@ -85,8 +85,8 @@ Styles can be passed inline through the two props ```inputStyle``` and ```sugges
   placeholder="colorname"
   onChange={this.handleNameInputChange}
   suggestion={this.state.prediction}
-  inputStyle={{ color: "darkgrey" }}			// Style for the text input field
-  suggestionStyle={{ color: "lightgrey" }} />	// Style for the suggestion text field
+  inputStyle={{ color: "darkgrey" /* Style for the text input field*/ }}
+  suggestionStyle={{ color: "lightgrey" /*Style for the suggestion text field*/ }} />
 ```
 
 Alternatively, you can add css properties to the classes used internally by the component;
@@ -120,7 +120,10 @@ suggestionStyle = {
   zIndex: "-1"
 }
 ```
-
 ## Notes
 
 This component is completely isomorphic; it's perfectly safe to use with server-side rendering.
+
+## Websites Using This
+
+- https://colorpicky.com/

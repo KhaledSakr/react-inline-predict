@@ -5,7 +5,7 @@ export default class InputPredict extends React.Component {
     super(props);
     this.state = {
       value: '',
-      suggestions: [''],
+      suggestions: props.suggestion ? [props.suggestion] : [''],
       index: 0,
       containerStyle: {
         position: "relative"
@@ -26,26 +26,26 @@ export default class InputPredict extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.suggestion && newProps.suggestion != this.state.suggestion[0]) {
+    if (newProps.suggestion && newProps.suggestion != this.state.suggestions[0]) {
       this.setState({ suggestions: [newProps.suggestion], index: 0 });
     }
   }
 
   handleKeyDown(e) {
-    let event = Object.create(e);
-    
+    // Handle Enter and Tab
     if (e.keyCode === 9 || e.keyCode === 13) {
       e.preventDefault();
-      var val = this.state.suggestions[this.state.index];
+      let val = this.state.suggestions[this.state.index];
       this.setState({ value: val });
-
-      // A little hack to the send the onChange event back to the user
-      event.target.value = val;
-      this.props.onChange(event);
+      if (this.props.onValueChange) {
+        this.props.onValueChange(val, true);
+      }
     }
+    // Handle Up Arrow
     else if (e.keyCode === 38 && this.state.index > 0) {
       this.setState({ index: this.state.index - 1 });
     }
+    // Handle Down Arrow
     else if (e.keyCode === 40 && this.state.index < (this.state.suggestions.length - 1)) {
       this.setState({ index: this.state.index + 1 });
     }
@@ -56,12 +56,21 @@ export default class InputPredict extends React.Component {
   }
 
   handleInputChange(e) {
-    var suggestions = [];
+    let suggestions = [];
+    let match = false;
 
-    if (this.props.dictionary) {
+    if (this.props.suggestion) {
+      if (this.props.suggestion === e.target.value) {
+        match = true;
+      }
+    }
+    else if (this.props.dictionary) {
       if (e.target.value.trim().length) {
-        for (var i = 0; i < this.props.dictionary.length; i++) {
-          var regex = new RegExp('^' + e.target.value, 'i');
+        for (let i = 0; i < this.props.dictionary.length; i++) {
+          let regex = new RegExp('^' + e.target.value, 'i');
+          if (e.target.value === this.props.dictionary[i]) {
+            match = true;
+          }
           if (regex.test(this.props.dictionary[i])) {
             suggestions.push(e.target.value + this.props.dictionary[i].slice(e.target.value.length))
           }
@@ -73,12 +82,23 @@ export default class InputPredict extends React.Component {
       suggestions = [''];
     }
 
-    this.setState({ value: e.target.value, suggestions: this.props.suggestion ? [this.props.suggestion] : suggestions, index: 0 });
-    this.props.onChange(e);
+    this.setState({
+      value: e.target.value,
+      suggestions: this.props.suggestion ? [this.props.suggestion] : suggestions,
+      index: 0
+    });
+
+    if (this.props.onValueChange) {
+      this.props.onValueChange(e.target.value, match);
+    }
+
+    if (this.props.onChange) {
+      this.props.onChange(e);
+    }
   }
 
   render() {
-    const { inputStyle, suggestionStyle, dictionary, suggestion, onChange, onKeyDown, value, ...otherProps } = this.props;
+    const { onValueChange, inputStyle, suggestionStyle, dictionary, suggestion, onChange, onKeyDown, value, ...otherProps } = this.props;
     return (
       <div className="input-predict-container" style={this.state.containerStyle}>
         <input className="input-predict-input" style={inputStyle || this.state.inputStyle}

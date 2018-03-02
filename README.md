@@ -5,7 +5,7 @@ A simple and customizable React component to show inline predictive text based o
 ![Example](https://i.imgur.com/2vfoumW.gif)
 
 - Start writing to see suggestions
-- Use ```Tab``` to autocomplete
+- Use ```Tab``` or ```Enter``` to autocomplete
 - Use ```Up``` and ```Down``` arrows to navigate suggestions
 
 ## Installation
@@ -35,6 +35,30 @@ Example:
   onChange={this.handleNameInputChange} />
 ```
 
+When the user input changes, the function passed as ```onValueChange``` prop is called, with the arguments being ```value``` and ```match```, ```match``` is true when the user value matches one of the values in the dictionary.
+
+```jsx
+<InputPredict
+  type="text"
+  name="name"
+  placeholder="colorname"
+  onValueChange={this.handleChange} />
+```
+
+```
+...
+```
+
+```jsx
+handleChange(value, match) {
+  // value: holds the user input value
+  // match: whether the value matches one the values in the dictionary/suggestion
+  if (match) {
+    fetchSomething(value);
+  }
+}
+```
+
 To Enable the prediction, you'll have to pass one of two additional props; ```dictionary``` or ```suggestion```.
 
 ### Using an Array
@@ -46,7 +70,7 @@ If you pass an array to the component through the prop ```dictionary```, the com
   type="text"
   name="name"
   placeholder="colorname"
-  onChange={this.handleNameInputChange}
+  onValueChange={this.handleChange}
   dictionary={["kiwi", "oranges", "watermelon", "pineapple"]} />
 ```
 
@@ -55,9 +79,11 @@ If you pass an array to the component through the prop ```dictionary```, the com
 If you want to handle the prediction in any other way, via an API, or in a particular way, you can process the user's input using the ```onChange``` hook, and then pass the prediction through the prop ```suggestion```
 
 ```jsx
-handleNameInputChange(e) {
-  const prediction = getPredicitionByAnyMeansNecessary(e.target.value);
-  this.setState({prediction: prediction});
+handleChange(value, match) {
+  if (!match) {
+    const prediction = getPredicitionByAnyMeansNecessary(value);
+    this.setState({prediction: prediction});
+  }
 }
 ```
 
@@ -70,7 +96,7 @@ handleNameInputChange(e) {
   type="text"
   name="name"
   placeholder="colorname"
-  onChange={this.handleNameInputChange}
+  onValueChange={this.handleChange}
   suggestion={this.state.prediction} />
 ```
 
@@ -83,7 +109,7 @@ Styles can be passed inline through the two props ```inputStyle``` and ```sugges
   type="text"
   name="name"
   placeholder="colorname"
-  onChange={this.handleNameInputChange}
+  onValueChange={this.handleChange}
   suggestion={this.state.prediction}
   inputStyle={{ color: "darkgrey" /* Style for the text input field*/ }}
   suggestionStyle={{ color: "lightgrey" /*Style for the suggestion text field*/ }} />
@@ -123,6 +149,9 @@ suggestionStyle = {
 ## Notes
 
 This component is completely isomorphic; it's perfectly safe to use with server-side rendering.
+
+## API Change
+For users up to version ```1.1.2```, you'll now have to use prop ```onValueChange``` to hook into user input changes, as ```onChange``` will no longer register value changes when the user presses ```Tab``` or ```Enter```.
 
 ## Websites Using This
 

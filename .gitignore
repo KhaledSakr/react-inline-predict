@@ -6,5 +6,6 @@
 *.pid
 *.gz
 
+coverage/
 node_modules/
 .vscode/
